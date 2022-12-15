@@ -3,6 +3,7 @@ package com.test.certificationexamadministration.service.implementation;
 import com.test.certificationexamadministration.exception.NotFoundException;
 import com.test.certificationexamadministration.model.ExamAttempt;
 import com.test.certificationexamadministration.model.Score;
+import com.test.certificationexamadministration.model.ScoreReport;
 import com.test.certificationexamadministration.model.request.ScoreRequest;
 import com.test.certificationexamadministration.repository.ExamAttemptRepo;
 import com.test.certificationexamadministration.repository.ScoreRepo;
@@ -11,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ScoreServiceImpl implements ScoreService {
@@ -42,6 +45,28 @@ public class ScoreServiceImpl implements ScoreService {
         scoreRepo.save(score);
 
         return score;
+    }
+
+    @Override
+    public List<Score> getAll() {
+        return scoreRepo.findAll();
+    }
+
+    @Override
+    public List<ScoreReport> getScoreReport() {
+        List<Score> scores = scoreRepo.findAll();
+
+        List<ScoreReport> scoreReport = scores.stream().map(score -> {
+            ScoreReport report = new ScoreReport();
+            report.setAttemptDate(score.getExamAttempt().getAttemptDate());
+            report.setUsername(score.getExamAttempt().getUser().getUsername());
+            report.setModuleName(score.getExamAttempt().getExamModule().getModuleName());
+            report.setLevelName(score.getExamAttempt().getExamModule().getExamLevel().getLevelName());
+            report.setScore(score.getScore());
+            return report;
+        }).collect(Collectors.toList());
+
+        return scoreReport;
     }
 
 }
