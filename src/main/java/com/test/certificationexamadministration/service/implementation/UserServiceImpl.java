@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User getWhereUsernameEquals(String username) {
+        return userRepo.findWhereUsernameEquals(username);
+    }
+
 }
