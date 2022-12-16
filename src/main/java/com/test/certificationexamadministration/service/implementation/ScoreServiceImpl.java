@@ -1,6 +1,5 @@
 package com.test.certificationexamadministration.service.implementation;
 
-import com.test.certificationexamadministration.exception.GeneralException;
 import com.test.certificationexamadministration.exception.NotFoundException;
 import com.test.certificationexamadministration.model.ExamAttempt;
 import com.test.certificationexamadministration.model.Score;
@@ -57,15 +56,21 @@ public class ScoreServiceImpl implements ScoreService {
     public List<ScoreReport> getScoreReport() {
         List<Score> scores = scoreRepo.findAll();
 
-        List<ScoreReport> scoreReport = scores.stream().map(score -> {
-            ScoreReport report = new ScoreReport();
-            report.setAttemptDate(score.getExamAttempt().getAttemptDate());
-            report.setUsername(score.getExamAttempt().getUser().getUsername());
-            report.setModuleName(score.getExamAttempt().getExamModule().getModuleName());
-            report.setLevelName(score.getExamAttempt().getExamModule().getExamLevel().getLevelName());
-            report.setScore(score.getScore());
-            return report;
-        }).collect(Collectors.toList());
+        List<ScoreReport> scoreReport = scores
+                .stream()
+                .map(score -> {
+                    ScoreReport report = new ScoreReport();
+                    report.setAttemptDate(score.getExamAttempt().getAttemptDate());
+                    report.setUsername(score.getExamAttempt().getUser().getUsername());
+                    report.setModuleName(score.getExamAttempt().getExamModule().getModuleName());
+                    report.setLevelName(score.getExamAttempt().getExamModule().getExamLevel().getLevelName());
+                    report.setScore(score.getScore());
+                    return report;
+                }).collect(Collectors.toList());
+
+        if (scoreReport.isEmpty()) {
+            throw new NotFoundException("Score Report is empty");
+        }
 
         return scoreReport;
     }

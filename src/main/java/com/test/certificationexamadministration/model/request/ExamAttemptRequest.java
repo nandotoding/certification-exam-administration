@@ -1,6 +1,5 @@
 package com.test.certificationexamadministration.model.request;
 
-import com.test.certificationexamadministration.model.ExamLevel;
 import lombok.Data;
 
 import java.util.Date;
