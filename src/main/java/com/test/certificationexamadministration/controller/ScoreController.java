@@ -1,5 +1,6 @@
 package com.test.certificationexamadministration.controller;
 
+import com.test.certificationexamadministration.exception.InvalidInputException;
 import com.test.certificationexamadministration.model.Score;
 import com.test.certificationexamadministration.model.ScoreReport;
 import com.test.certificationexamadministration.model.request.ScoreRequest;
@@ -8,8 +9,10 @@ import com.test.certificationexamadministration.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +27,12 @@ public class ScoreController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody ScoreRequest scoreRequest) {
+    public ResponseEntity add(@Valid @RequestBody ScoreRequest scoreRequest, BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            throw new InvalidInputException();
+        }
+
         Score scoreData = scoreService.add(scoreRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.name(), "Successfully added score", scoreData));
     }

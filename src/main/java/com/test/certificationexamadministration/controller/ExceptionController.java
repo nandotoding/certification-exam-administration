@@ -7,6 +7,7 @@ import com.test.certificationexamadministration.exception.ParentEntityDeletionEx
 import com.test.certificationexamadministration.model.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,6 +32,11 @@ public class ExceptionController {
     @ExceptionHandler(GeneralException.class)
     ResponseEntity<ErrorResponse> handleGeneralException(GeneralException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getCode(), e.getStatus(), e.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("E01", HttpStatus.BAD_REQUEST.name(), "Input date format may be incorrect. Use YYYY-MM-DD format"));
     }
 
 }
