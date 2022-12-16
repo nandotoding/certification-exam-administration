@@ -1,5 +1,6 @@
 package com.test.certificationexamadministration.service.implementation;
 
+import com.test.certificationexamadministration.exception.GeneralException;
 import com.test.certificationexamadministration.exception.NotFoundException;
 import com.test.certificationexamadministration.model.ExamAttempt;
 import com.test.certificationexamadministration.model.Score;
@@ -67,6 +68,22 @@ public class ScoreServiceImpl implements ScoreService {
         }).collect(Collectors.toList());
 
         return scoreReport;
+    }
+
+    @Override
+    public List<ScoreReport> getScoreReportByUsername(String username) {
+        List<ScoreReport> scoreReports = getScoreReport();
+
+        List<ScoreReport> filteredScoreReport = scoreReports
+                .stream()
+                .filter(report -> report.getUsername().equals(username))
+                .collect(Collectors.toList());
+
+        if (filteredScoreReport.isEmpty()) {
+            throw new NotFoundException("Score Report not found");
+        }
+
+        return filteredScoreReport;
     }
 
 }

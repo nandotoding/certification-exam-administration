@@ -12,6 +12,8 @@ import com.test.certificationexamadministration.service.ExamAttemptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExamAttemptServiceImpl implements ExamAttemptService {
 
@@ -42,6 +44,17 @@ public class ExamAttemptServiceImpl implements ExamAttemptService {
         examAttemptRepo.save(examAttempt);
 
         return examAttempt;
+    }
+
+    @Override
+    public List<ExamAttempt> getAll() {
+        List<ExamAttempt> examAttempts = examAttemptRepo.findAll();
+
+        if (examAttempts.isEmpty()) {
+            throw new NotFoundException("Exam Attempts not found");
+        }
+
+        return examAttempts;
     }
 
 }

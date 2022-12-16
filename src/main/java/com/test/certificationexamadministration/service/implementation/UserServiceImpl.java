@@ -2,6 +2,7 @@ package com.test.certificationexamadministration.service.implementation;
 
 import com.test.certificationexamadministration.exception.InvalidInputException;
 import com.test.certificationexamadministration.exception.NotFoundException;
+import com.test.certificationexamadministration.exception.ParentEntityDeletionException;
 import com.test.certificationexamadministration.model.User;
 import com.test.certificationexamadministration.model.request.UserRequest;
 import com.test.certificationexamadministration.repository.UserRepo;
@@ -26,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(UserRequest userRequest) {
+        User registeredUser = userRepo.findWhereUsernameEquals(userRequest.getUsername());
+
+        if (registeredUser != null) {
+            throw new InvalidInputException("User " + userRequest.getUsername() + " is already registered");
+        }
+
         User user = modelMapper.map(userRequest, User.class);
         userRepo.save(user);
         return user;
@@ -82,7 +89,11 @@ public class UserServiceImpl implements UserService {
             throw new InvalidInputException("Password is wrong");
         }
 
-        userRepo.delete(user);
+        try {
+            userRepo.delete(user);
+        } catch (Exception e) {
+            throw new ParentEntityDeletionException();
+        }
     }
 
 }

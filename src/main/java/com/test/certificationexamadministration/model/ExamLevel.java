@@ -16,7 +16,7 @@ public class ExamLevel {
     @Column(name = "level_id")
     private String levelId;
 
-    @Column(name = "level_code")
+    @Column(name = "level_code", unique = true)
     private String levelCode;
 
     @Column(name = "level_name")

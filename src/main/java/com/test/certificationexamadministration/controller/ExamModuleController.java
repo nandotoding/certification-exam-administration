@@ -7,10 +7,9 @@ import com.test.certificationexamadministration.service.ExamModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/exam-modules")
@@ -27,6 +26,24 @@ public class ExamModuleController {
     public ResponseEntity add(@RequestBody ExamModuleRequest examModuleRequest) {
         ExamModule examModuleData = examModuleService.add(examModuleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.name(), "Successfully added exam module", examModuleData));
+    }
+
+    @GetMapping
+    public ResponseEntity getAll() {
+        List<ExamModule> examModuleData = examModuleService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully got all exam modules", examModuleData));
+    }
+
+    @PatchMapping("/{code}")
+    public ResponseEntity update(String code, String newName, String newLevelCode) {
+        ExamModule examModule = examModuleService.update(code, newName, newLevelCode);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully updated Exam Module", examModule));
+    }
+
+    @DeleteMapping("/{code}")
+    public ResponseEntity delete(@PathVariable("code") String code) {
+        examModuleService.delete(code);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully deleted Exam Module", "Exam Module " + code + " has been deleted"));
     }
 
 }

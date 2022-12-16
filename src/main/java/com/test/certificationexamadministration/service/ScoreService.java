@@ -11,5 +11,6 @@ public interface ScoreService {
     Score add(ScoreRequest scoreRequest);
     List<Score> getAll();
     List<ScoreReport> getScoreReport();
+    List<ScoreReport> getScoreReportByUsername(String username);
 
 }

@@ -57,7 +57,7 @@ public class UserController {
     @DeleteMapping("/{username}")
     public ResponseEntity delete(@PathVariable("username") String username, @RequestParam String password) {
         userService.delete(username, password);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully deleted user", username));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully deleted user", "User " + username + " has been deleted"));
     }
 
 

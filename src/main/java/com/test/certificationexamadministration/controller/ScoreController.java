@@ -32,7 +32,13 @@ public class ScoreController {
     @GetMapping("/report")
     public ResponseEntity getScoreReport() {
         List<ScoreReport> scoreReportData = scoreService.getScoreReport();
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.name(), "Successfully got score report", scoreReportData));
+        return ResponseEntity.status(HttpStatus.FOUND).body(new SuccessResponse<>(HttpStatus.FOUND.name(), "Successfully got score report", scoreReportData));
+    }
+
+    @GetMapping("/report/{username}")
+    public ResponseEntity getScoreReportByUsername(@PathVariable("username") String username) {
+        List<ScoreReport> scoreReportData = scoreService.getScoreReportByUsername(username);
+        return ResponseEntity.status(HttpStatus.FOUND).body(new SuccessResponse<>(HttpStatus.FOUND.name(), "Successfully got " + username + " score reports", scoreReportData));
     }
 
 }

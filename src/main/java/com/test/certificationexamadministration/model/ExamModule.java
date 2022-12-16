@@ -16,7 +16,7 @@ public class ExamModule {
     @Column(name = "module_id")
     private String moduleId;
 
-    @Column(name = "module_code")
+    @Column(name = "module_code", unique = true)
     private String moduleCode;
 
     @Column(name = "module_name")
