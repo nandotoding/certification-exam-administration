@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exam-attempts")
+@RequestMapping(UrlMappings.EXAM_ATTEMPT_URL)
 public class ExamAttemptController {
 
     private final ExamAttemptService examAttemptService;

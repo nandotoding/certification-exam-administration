@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exam-modules")
+@RequestMapping(UrlMappings.EXAM_MODULE_URL)
 public class ExamModuleController {
 
     private final ExamModuleService examModuleService;

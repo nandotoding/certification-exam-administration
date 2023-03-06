@@ -1,9 +1,6 @@
 package com.test.certificationexamadministration.controller;
 
-import com.test.certificationexamadministration.exception.GeneralException;
-import com.test.certificationexamadministration.exception.InvalidInputException;
-import com.test.certificationexamadministration.exception.NotFoundException;
-import com.test.certificationexamadministration.exception.ParentEntityDeletionException;
+import com.test.certificationexamadministration.exception.*;
 import com.test.certificationexamadministration.model.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +34,11 @@ public class ExceptionController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("E01", HttpStatus.BAD_REQUEST.name(), "Input date format may be incorrect. Use YYYY-MM-DD format"));
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getCode(), e.getStatus(), e.getMessage()));
     }
 
 }

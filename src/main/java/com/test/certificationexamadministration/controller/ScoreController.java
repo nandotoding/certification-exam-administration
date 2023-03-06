@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/scores")
+@RequestMapping(UrlMappings.SCORE_URL)
 public class ScoreController {
 
     private final ScoreService scoreService;

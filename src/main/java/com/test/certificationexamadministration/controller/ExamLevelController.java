@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exam-levels")
+@RequestMapping(UrlMappings.EXAM_LEVEL_URL)
 public class ExamLevelController {
 
     private final ExamLevelService examLevelService;

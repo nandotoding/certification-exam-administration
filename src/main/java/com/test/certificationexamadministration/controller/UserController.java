@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(UrlMappings.USER_URL)
 public class UserController {
 
     private UserService userService;
