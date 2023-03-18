@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${HOST}:${PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 300000
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - development
+
+server:
+  port: 8081
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - test
+
+server:
+  port: 8082
